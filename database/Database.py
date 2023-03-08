@@ -27,9 +27,9 @@ class Database():
         returns object on sucess
         """
         # create execute string
-        executeString = f"""INSERT INTO {self.sqliteTable}({', '.join(data.toDict().keys())}) VALUES(?{(", ?" * (len(data.toDict().values())-1))})"""
+        executeString = f"""INSERT INTO {self.sqliteTable}({', '.join(data.toDictWithoutConnections().keys())}) VALUES(?{(", ?" * (len(data.toDictWithoutConnections().values())-1))})"""
         self.sqliteCursor.execute(
-            executeString, tuple(data.toDict().values()))
+            executeString, tuple(data.toDictWithoutConnections().values()))
         self.sqliteDatabase.commit()
 
     def remove(self, objectId):

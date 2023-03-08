@@ -1,7 +1,7 @@
-from database import database
+from database import Database
 
 
-class DatabaseQuickItem(database.Database):
+class DatabaseQuickItem(Database.Database):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
@@ -18,7 +18,17 @@ class DatabaseQuickItem(database.Database):
 class QuickItem():
 
     def __init__(self, database, id=None, name="unnamed", amount=1, unit="stk.", kategoryIds=None, quickListId=None) -> None:
-        """creates a Quick item out of inputs"""
+        """
+        Create a ShoppingQuickItem
+        
+        :param DatabaseQuickItem database: The corresponding database object
+        :param str id: The id of the shopping quick item
+        :param str name: The name of the shopping quick item
+        :param int amount: The amount of the shopping quick item
+        :param str unit: The unit of the shopping quick item
+        :param str[] kategorysIds: The kategorys the shopping quick items has
+        :param str quickListId: The id of the corresponding quick list
+        """
         if id == None:
             id = database.generateId()
         self.id = id
@@ -28,13 +38,17 @@ class QuickItem():
         self.kategoryIds = kategoryIds
         self.quickListId = quickListId
 
-    def toDict(self):
-        """returns dict of all Values"""
+    def toDictWithoutConnections(self):
+        """
+        Convert object to dict without connections
+
+        :return: all Values without connections to other tables
+        :rtype: dict
+        """
         return {
             "Id": self.id,
             "Name": self.name,
             "Amount": self.amount,
             "Unit": self.unit,
-            "KategoryIds": self.kategoryIds,
-            "QuickListId": self.quickListId)
+            "QuickListId": self.quickListId
         }

@@ -1,7 +1,7 @@
-from database import database
+from database import Database
 
 
-class DatabaseItem(database.Database):
+class DatabaseItem(Database.Database):
 
     collums = {
         "Id": "TEXT PRIMARY KEY  ",
@@ -19,7 +19,18 @@ class DatabaseItem(database.Database):
 class Item():
 
     def __init__(self, database, id=None, name="unnamed", amount=1, unit="stk.", kategoryIds=None, checked=False, listId=None) -> None:
-        """creates a Shopping item out of inputs"""
+        """
+        Create a ShoppingItem
+        
+        :param DatabaseItem database: The corresponding database object
+        :param str id: The id of the shopping item
+        :param str name: The name of the shopping item
+        :param int amount: The amount of the shopping item
+        :param str unit: The unit of the shopping item
+        :param str[] kategorysIds: The kategorys the shopping items has
+        :param bool checked: If the item is checked
+        :param str listId: The id of the corresponding list
+        """
         if id == None:
             id = database.generateId()
         self.id = id
@@ -30,14 +41,18 @@ class Item():
         self.checked = checked
         self.listId = listId
 
-    def toDict(self):
-        """returns dict of all Values"""
+    def toDictWithoutConnections(self):
+        """
+        Convert object to dict without connections
+
+        :return: all Values without connections to other tables
+        :rtype: dict
+        """
         return {
             "Id": self.id,
             "Name": self.name,
             "Amount": self.amount,
             "Unit": self.unit,
-            "KategoryIds": self.kategoryIds,
             "Checked": self.checked,
             "ListId": self.listId
         }

@@ -1,12 +1,12 @@
-from database import database
+from database import Database
 
 
-class DatabaseList(database.Database):
+class DatabaseList(Database.Database):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
         "Name": "TEXT NOT NULL",
-        "OwnerId": "INTEGER NOT NULL",
+        "OwnerId": "TEXT NOT NULL",
     }
 
     def __init__(self, sqliteFile) -> None:
@@ -16,7 +16,15 @@ class DatabaseList(database.Database):
 class List():
 
     def __init__(self, database, id=None, name="unnamed", ownerId=-1, userIds=None) -> None:
-        """creates a shopping list out of given data"""
+        """
+        Creates a ShoppingList
+
+        :param DatabaseList database: The corresponding database object
+        :param str id: The id of the shopping lists
+        :param str name: The name of the shopping lists
+        :param str ownerId: The id of the shopping lists owner
+        :param str[] userIds: A list of users with access to the list
+        """
         if id == None:
             id = database.generateId()
         self.id = id
@@ -24,11 +32,15 @@ class List():
         self.ownerId = ownerId
         self.userIds = userIds
 
-    def toDict(self):
-        """returns dict of all Values"""
+    def toDictWithoutConnections(self):
+        """
+        Convert object to dict without connections
+
+        :return: all Values without connections to other tables
+        :rtype: dict
+        """
         return {
             "Id": self.id,
             "Name": self.name,
             "OwnerId": self.ownerId,
-            "UserIds": self.userIds
         }
