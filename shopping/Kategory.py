@@ -1,7 +1,7 @@
 from database import Database
 
 
-class DatabaseKategory(Database.Database):
+class KategoryDatabaseConnection(Database.Connection):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
@@ -15,18 +15,18 @@ class DatabaseKategory(Database.Database):
 
 class Kategory():
 
-    def __init__(self, database, id=None, name="unnamed", ownerId=-1, userIds=None) -> None:
+    def __init__(self, databaseCOnnection, id=None, name, ownerId, userIds=None) -> None:
         """
         Create a ShoppingKategory
         
-        :param DatabaseList database: The corresponding database object
+        :param ListDatabaseConnection databaseConnection: The corresponding shopping kategory database connection object
         :param str id: The id of the shopping kategory
         :param str name: The name of the shopping kategory
         :param str ownerId: The id of the shopping kategory owner
         :param str[] userIds: A list of users with access to the kategory
         """
         if id == None:
-            id = database.generateId()
+            id = databaseConnection.generateId()
         self.id = id
         self.name = name
         self.ownerId = ownerId

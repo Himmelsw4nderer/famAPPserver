@@ -2,7 +2,7 @@ import sqlite3
 import uuid
 
 
-class Database():
+class Connection():
 
     collums = {
         "Id": "TEXT",
@@ -23,8 +23,10 @@ class Database():
 
     def create(self, data):
         """
-        adding an object to list
-        returns object on sucess
+        Adding an object to list
+
+        :param Object data: The object to be created
+        :return: The object on sucess
         """
         # create execute string
         executeString = f"""INSERT INTO {self.sqliteTable}({', '.join(data.toDictWithoutConnections().keys())}) VALUES(?{(", ?" * (len(data.toDictWithoutConnections().values())-1))})"""
@@ -34,8 +36,10 @@ class Database():
 
     def remove(self, objectId):
         """
-        adding an object to list
-        returns object on sucess
+        Removes an object from list
+        
+        :param str objectId: The id of the object to be removed
+        :return: The object on sucess
         """
         # TODO create execute string
         executeString = f""
@@ -43,13 +47,29 @@ class Database():
 
     def change(self, objectId, collumId, value):
         """
-        adding an object to list
-        returns new value on success
+        Change an object on the list
+
+        :param str objectId: The id of the object to be changed
+        :param str collumId: The id of the collum whos value changes
+        :param value: The new value to which it should be changed
+        :return: The new objet on success
         """
         # TODO create execute string
         executeString = f""
         self.sqliteDatabase.execute(executeString)
 
+    def load(self, objectId):
+        """
+        adding an object to list#
+
+        :param str objectId: The id of the object to be loaded
+        :param Object object: The object to put the vars in
+        :return: The new objet on success
+        """
+        # TODO create execute string
+        executeString = f""
+        self.sqliteDatabase.execute(executeString)
+        
     def createTable(self):
         """creates the fitting Table if it does not Exist"""
         # create execution String
@@ -57,7 +77,12 @@ class Database():
         self.sqliteDatabase.execute(executionString)
 
     def generateId(self):
-        """generate a not used id as primary key"""
+        """
+        Generate a not used id as primary key
+        
+        :return: The free id
+        :rtype: str
+        """
         # random generated uuid
         newUUID = str(uuid.uuid4())
         # check if uuid exists in Tabel
@@ -69,3 +94,31 @@ class Database():
             return newUUID
         # recursivly testing new uuid
         return self.generateId()
+
+class Object():
+
+    def __init__(self, databaseConnection, ...):
+        """
+        Creates a Object
+
+        :param Connection database: The corresponding database connection
+        """
+        pass
+
+    def __init__(self, databaseConnection, id):
+        """
+        Loads an Object by id from Database
+
+        :param Connection database: The corresponding database connection object
+        :param str id: The id to load the object by
+        """
+        self = databaseConnection.load(self, id)
+
+     def toDictWithoutConnections(self):
+        """
+        Convert object to dict without connections
+
+        :return: all Values without connections to other Lists
+        :rtype: dict
+        """
+        pass

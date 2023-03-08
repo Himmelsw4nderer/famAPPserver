@@ -1,7 +1,7 @@
 from database import Database
 
 
-class DatabaseQuickList(Database.Database):
+class QuickListDatabaseConnection(Database.Connection):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
@@ -15,18 +15,18 @@ class DatabaseQuickList(Database.Database):
 
 class QuickList():
 
-    def __init__(self, database, id=None, name="unnamed", ownerId=-1, userIds=None) -> None:
+    def __init__(self, databaseConnection, id=None, name, ownerId, userIds=None) -> None:
         """
         Create a QuickList
 
-        :param DatabaseList database: The corresponding database object
-        :param str id: The id of the shopping quick lists
-        :param str name: The name of the shopping quick lists
+        :param ListDatabaseConnection databaseConnection: The corresponding shopping quick list database connection object
+        :param str id: The id of the shopping quick list
+        :param str name: The name of the shopping quick list
         :param str ownerId: The id of the shopping quick lists owner
         :param str[] userIds: A list of users with access to the quick list
         """
         if id == None:
-            id = database.generateId()
+            id = databaseConnection.generateId()
         self.id = id
         self.name = name
         self.ownerId = ownerId

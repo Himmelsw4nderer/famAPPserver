@@ -1,7 +1,7 @@
 from database import Database
 
 
-class DatabaseQuickItem(Database.Database):
+class QuickItemDatabaseConnection(Database.Connection):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
@@ -17,11 +17,11 @@ class DatabaseQuickItem(Database.Database):
 
 class QuickItem():
 
-    def __init__(self, database, id=None, name="unnamed", amount=1, unit="stk.", kategoryIds=None, quickListId=None) -> None:
+    def __init__(self, databaseConnection, id=None, name, amount, unit, kategoryIds=None, quickListId=None) -> None:
         """
         Create a ShoppingQuickItem
         
-        :param DatabaseQuickItem database: The corresponding database object
+        :param QuickItemDatabaseConnection databaseConnection: The corresponding shopping quick item database connection object
         :param str id: The id of the shopping quick item
         :param str name: The name of the shopping quick item
         :param int amount: The amount of the shopping quick item
@@ -30,7 +30,7 @@ class QuickItem():
         :param str quickListId: The id of the corresponding quick list
         """
         if id == None:
-            id = database.generateId()
+            id = databaseConnection.generateId()
         self.id = id
         self.name = name
         self.amount = amount

@@ -1,7 +1,7 @@
 from database import Database
 
 
-class DatabaseItem(Database.Database):
+class ItemDatabaseConnection(Database.Connection):
 
     collums = {
         "Id": "TEXT PRIMARY KEY  ",
@@ -16,14 +16,13 @@ class DatabaseItem(Database.Database):
         super().__init__(sqliteFile, "ShoppingItems")
 
 
-class Item():
+class Item(Database.Object):
 
-    def __init__(self, database, id=None, name="unnamed", amount=1, unit="stk.", kategoryIds=None, checked=False, listId=None) -> None:
+    def __init__(self, databaseConnection, id=None, name, amount, unit, kategoryIds=None, checked=False, listId=None) -> None:
         """
         Create a ShoppingItem
         
-        :param DatabaseItem database: The corresponding database object
-        :param str id: The id of the shopping item
+        :param ItemDatabaseConnection databaseConnection: The corresponding item database connection object
         :param str name: The name of the shopping item
         :param int amount: The amount of the shopping item
         :param str unit: The unit of the shopping item
@@ -32,7 +31,7 @@ class Item():
         :param str listId: The id of the corresponding list
         """
         if id == None:
-            id = database.generateId()
+            id = databaseConnection.generateId()
         self.id = id
         self.name = name
         self.amount = amount
@@ -45,7 +44,7 @@ class Item():
         """
         Convert object to dict without connections
 
-        :return: all Values without connections to other tables
+        :return: all Values without connections to other Lists
         :rtype: dict
         """
         return {

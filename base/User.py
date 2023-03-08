@@ -1,6 +1,6 @@
 from database import Database
 
-class DatabaseUser(Database.Database):
+class UserDatabaseConnection(Database.Connection):
 
     collums = {
         "Id": "TEXT PRIMARY KEY",
@@ -13,17 +13,17 @@ class DatabaseUser(Database.Database):
 
 class User():
 
-    def __init__(self, database, id=None, name="unnamed", passwordHash=None) -> None:
+    def __init__(self, databaseConnection, id=None, name, passwordHash) -> None:
         """
         Creates a User
         
-        :param DatabaseUser database: The corresponding database object
+        :param UserDatabaseConnection databaseConnection: The corresponding user database connection object
         :param str id: The id of the user
         :param str name: The name of the user
         :param str passwordHash: The password hash of the user
         """
         if id == None:
-            id = database.generateId()
+            id = databaseConnection.generateId()
         self.id = id
         self.name = name
         self.passwordHash = passwordHash
